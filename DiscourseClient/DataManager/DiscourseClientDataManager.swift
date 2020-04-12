@@ -39,3 +39,9 @@ extension DiscourseClientDataManager: AddTopicDataManager {
         remoteDataManager.addTopic(title: title, raw: raw, createdAt: createdAt, completion: completion)
     }
 }
+
+extension DiscourseClientDataManager: UsersDataManager {
+    func fetchAllUsers(completion: @escaping (Result<UsersListResponse, Error>) -> ()) {
+        remoteDataManager.fetchAllUsers(completion: completion)
+    }
+}

@@ -1,5 +1,5 @@
 //
-//  UsersResponse.swift
+//  UsersListResponse.swift
 //  DiscourseClient
 //
 //  Created by Gerardo Rico Botella on 12/04/2020.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-class UsersResponse {
+struct UsersListResponse: Codable {
     
 }

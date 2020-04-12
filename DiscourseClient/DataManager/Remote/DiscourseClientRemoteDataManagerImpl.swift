@@ -36,4 +36,12 @@ class DiscourseClientRemoteDataManagerImpl: DiscourseClientRemoteDataManager {
             completion(result)
         }
     }
+    
+    func fetchAllUsers(completion: @escaping (Result<UsersListResponse, Error>) -> ()) {
+        let request = ActiveUsersRequest()
+        
+        session.send(request: request) { (result) in
+            completion(result)
+        }
+    }
 }

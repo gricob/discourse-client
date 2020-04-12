@@ -9,7 +9,20 @@
 import UIKit
 
 class UsersViewController: UIViewController {
+    
     let viewModel: UsersViewModel
+    
+    lazy var tableView: UITableView = {
+        let table = UITableView(frame: .zero, style: .grouped)
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.dataSource = self
+        table.delegate = self
+        table.register(UINib(nibName: "UserCell", bundle: nil), forCellReuseIdentifier: "UserCell")
+        table.estimatedRowHeight = 100
+        table.rowHeight = UITableView.automaticDimension
+        
+        return table
+    }()
     
     init(viewModel : UsersViewModel) {
         self.viewModel = viewModel
@@ -33,5 +46,42 @@ class UsersViewController: UIViewController {
             testLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             testLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        viewModel.viewWasLoaded()
+    }
+    
+    func showErrorFetchingUsersAlert() {
+        let alertMessage: String = NSLocalizedString("Error fetching users\nPlease try again later", comment: "")
+        showAlert(alertMessage)
+    }
+}
+
+extension UsersViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel.numberOfRows(in: section)
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if let cell = tableView.dequeueReusableCell(withIdentifier: "UserCell", for: indexPath) as? UserCell,
+            let cellViewModel = viewModel.viewModel(at: indexPath) {
+            cell.viewModel = cellViewModel
+            return cell
+        }
+
+        fatalError()
+    }
+}
+
+extension UsersViewController: UITableViewDelegate {
+    func usersFetched() {
+        tableView.reloadData()
+    }
+    
+    func errorFetchingUsers() {
+        showErrorFetchingUsersAlert()
     }
 }

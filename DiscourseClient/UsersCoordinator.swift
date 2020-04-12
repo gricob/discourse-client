@@ -9,14 +9,17 @@
 import UIKit
 
 class UsersCoordinator: Coordinator {
-    let presenter: UINavigationController
     
-    init(presenter: UINavigationController) {
+    let presenter: UINavigationController
+    let usersDataManager: UsersDataManager
+    
+    init(presenter: UINavigationController, usersDataManager: UsersDataManager) {
         self.presenter = presenter
+        self.usersDataManager = usersDataManager
     }
     
     override func start() {
-        let usersViewModel = UsersViewModel()
+        let usersViewModel = UsersViewModel(usersDataManager: usersDataManager)
         let usersViewController = UsersViewController(viewModel: usersViewModel)
         usersViewController.title = NSLocalizedString("Users", comment: "")
         
