@@ -9,7 +9,7 @@
 import Foundation
 
 struct UsersListResponse: Codable {
-    var users: [User] = []
+    var users: [UserListItem] = []
     
     enum CodingKeys: String, CodingKey {
         case directoryItems = "directory_items"
@@ -34,14 +34,14 @@ struct UsersListResponse: Codable {
 }
 
 struct DirectoryItem: Codable {
-    var user: User
+    var user: UserListItem
     
-    init(user: User) {
+    init(user: UserListItem) {
         self.user = user
     }
 }
 
-struct User: Codable, Equatable {
+struct UserListItem: Codable, Equatable {
     var id: Int
     var username: String
     var name: String?
@@ -66,7 +66,7 @@ struct User: Codable, Equatable {
         title = try values.decode(String?.self, forKey: .title)
     }
     
-    static func == (lhs: User, rhs: User) -> Bool {
+    static func == (lhs: UserListItem, rhs: UserListItem) -> Bool {
         return lhs.id == rhs.id
     }
 }

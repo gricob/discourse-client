@@ -22,6 +22,24 @@ class TopicDetailViewController: UIViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
+    
+    lazy var labelTopicPostsCount: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    lazy var buttonDeleteTopic: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = .red
+        button.isHidden = true
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle(NSLocalizedString("Delete topic", comment: ""), for: .normal)
+        
+        button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
 
     lazy var topicIDStackView: UIStackView = {
         let labelTopicIDTitle = UILabel()
@@ -46,6 +64,26 @@ class TopicDetailViewController: UIViewController {
         topicNameStackView.axis = .horizontal
 
         return topicNameStackView
+    }()
+    
+    lazy var topicPostsCountStackView: UIStackView = {
+        let labelTopicPostsCountTitle = UILabel()
+        labelTopicPostsCountTitle.text = NSLocalizedString("Topic posts count: ", comment: "")
+        labelTopicPostsCountTitle.translatesAutoresizingMaskIntoConstraints = false
+
+        let topicPostsCountStackView = UIStackView(arrangedSubviews: [labelTopicPostsCountTitle, labelTopicPostsCount])
+        topicPostsCountStackView.translatesAutoresizingMaskIntoConstraints = false
+        topicPostsCountStackView.axis = .horizontal
+
+        return topicPostsCountStackView
+    }()
+    
+    lazy var deleteButtonStackView: UIStackView = {
+        let deleteButtonStackView = UIStackView(arrangedSubviews: [buttonDeleteTopic])
+        deleteButtonStackView.translatesAutoresizingMaskIntoConstraints = false
+        deleteButtonStackView.axis = .horizontal
+
+        return deleteButtonStackView
     }()
 
     let viewModel: TopicDetailViewModel
@@ -74,6 +112,18 @@ class TopicDetailViewController: UIViewController {
             topicNameStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             topicNameStackView.topAnchor.constraint(equalTo: topicIDStackView.bottomAnchor, constant: 8)
         ])
+        
+        view.addSubview(topicPostsCountStackView)
+        NSLayoutConstraint.activate([
+            topicPostsCountStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            topicPostsCountStackView.topAnchor.constraint(equalTo: topicNameStackView.bottomAnchor, constant: 8)
+        ])
+        
+        view.addSubview(deleteButtonStackView)
+        NSLayoutConstraint.activate([
+            deleteButtonStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            deleteButtonStackView.topAnchor.constraint(equalTo: topicPostsCountStackView.bottomAnchor, constant: 8)
+        ])
 
         let leftBarButtonItem: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.left"), style: .plain, target: self, action: #selector(backButtonTapped))
         leftBarButtonItem.tintColor = .black
@@ -88,15 +138,26 @@ class TopicDetailViewController: UIViewController {
     @objc func backButtonTapped() {
         viewModel.backButtonTapped()
     }
+    
+    @objc func deleteButtonTapped() {
+        viewModel.deleteButtonTapped()
+    }
 
     fileprivate func showErrorFetchingTopicDetailAlert() {
         let alertMessage: String = NSLocalizedString("Error fetching topic detail\nPlease try again later", comment: "")
+        showAlert(alertMessage)
+    }
+    
+    fileprivate func showErrorDeletingTopicAlert() {
+        let alertMessage: String = NSLocalizedString("Error deleting topic\nPlease try again later", comment: "")
         showAlert(alertMessage)
     }
 
     fileprivate func updateUI() {
         labelTopicID.text = viewModel.labelTopicIDText
         labelTopicTitle.text = viewModel.labelTopicNameText
+        labelTopicPostsCount.text = viewModel.labelTopicPostsCountText
+        buttonDeleteTopic.isHidden = !(viewModel.showDeleteButton ?? false)
     }
 }
 
@@ -107,5 +168,9 @@ extension TopicDetailViewController: TopicDetailViewDelegate {
 
     func errorFetchingTopicDetail() {
         showErrorFetchingTopicDetailAlert()
+    }
+    
+    func errorDeletingTopic() {
+        showErrorDeletingTopicAlert()
     }
 }

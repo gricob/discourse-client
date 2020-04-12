@@ -22,7 +22,7 @@ struct LatestTopicsRequest: APIRequest {
     }
     
     var parameters: [String : String] {
-        return [:]
+        return ["order": "created"]
     }
     
     var body: [String : Any] {

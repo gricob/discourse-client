@@ -33,10 +33,18 @@ class AddTopicViewModel {
     }
 
     func submitButtonTapped(title: String) {
-        /** TODO:
-         Realizar la llamada addTopic sobre el dataManager.
-         Si el resultado es success, avisar al coordinator
-         Si la llamada falla, avisar al viewDelegate
-         */
+        let currentDate = Date()
+        
+        dataManager.addTopic(title: title, raw: title, createdAt: currentDate) { [weak self](result) in
+            switch (result) {
+                case .success:
+                    self?.coordinatorDelegate?.topicSuccessfullyAdded()
+                break
+                case .failure(let error):
+                    print(error)
+                    self?.viewDelegate?.errorAddingTopic()
+                break
+            }
+        }
     }
 }

@@ -1,5 +1,5 @@
 //
-//  UsersDataManager.swift
+//  DeleteTopicResponse.swift
 //  DiscourseClient
 //
 //  Created by Gerardo Rico Botella on 12/04/2020.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-protocol UsersDataManager {
-    func fetchAllUsers(completion: @escaping (Result<UsersListResponse?, Error>) -> ())
+struct DeleteTopicResponse: Codable {
+    
 }

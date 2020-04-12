@@ -16,14 +16,13 @@ class UserCellViewModel {
     
     let baseURL: String = "https://mdiscourse.keepcoding.io"
     
-    let user: User
+    let user: UserListItem
     let path: IndexPath
     var viewDelegate: UserCellViewDelegate?
     var textLabelText: String?
     var image: UIImage?
-    var onImageLoaded: (() -> Void)?
     
-    init(user: User, path: IndexPath) {
+    init(user: UserListItem, path: IndexPath) {
         self.user = user
         self.path = path
         self.textLabelText = user.username
@@ -38,7 +37,6 @@ class UserCellViewModel {
             self?.image = UIImage(data: imageData)
             
             DispatchQueue.main.async {
-                self?.onImageLoaded?()
                 self?.viewDelegate?.imageLoaded(path: self!.path)
             }
         }

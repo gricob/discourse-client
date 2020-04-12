@@ -12,10 +12,12 @@ class UsersCoordinator: Coordinator {
     
     let presenter: UINavigationController
     let usersDataManager: UsersDataManager
+    let userDetailDataManager: UserDetailDataManager
     
-    init(presenter: UINavigationController, usersDataManager: UsersDataManager) {
+    init(presenter: UINavigationController, usersDataManager: UsersDataManager, userDetailDataManager: UserDetailDataManager) {
         self.presenter = presenter
         self.usersDataManager = usersDataManager
+        self.userDetailDataManager = userDetailDataManager
     }
     
     override func start() {
@@ -25,7 +27,19 @@ class UsersCoordinator: Coordinator {
         
         usersViewModel.viewDelegate = usersViewController
         usersViewModel.cellViewDelegate = usersViewController
+        usersViewModel.coordinatorDelegate = self
         
         presenter.pushViewController(usersViewController, animated: false)
+    }
+}
+
+extension UsersCoordinator: UsersCoordinatorDelegate {
+    func didSelect(user: UserListItem) {
+        let userDetailViewModel = UserDetailViewModel(username: user.username, dataManager: userDetailDataManager)
+        let userDetailViewController = UserDetailViewController(viewModel: userDetailViewModel)
+        
+        userDetailViewModel.viewDelegate = userDetailViewController
+        
+        presenter.pushViewController(userDetailViewController, animated: true)
     }
 }

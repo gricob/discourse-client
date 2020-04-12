@@ -1,5 +1,5 @@
 //
-//  UserCell.swift
+//  CategoryCell.swift
 //  DiscourseClient
 //
 //  Created by Gerardo Rico Botella on 12/04/2020.
@@ -8,15 +8,12 @@
 
 import UIKit
 
-class UserCell: UITableViewCell {
-    
-    var viewModel: UserCellViewModel? {
+class CategoryCell: UITableViewCell {
+
+    var viewModel: CategoryCellViewModel? {
         didSet {
             guard let viewModel = viewModel else { return }
             textLabel?.text = viewModel.textLabelText
-            
-            self.imageView?.image = viewModel.image
         }
     }
-    
 }

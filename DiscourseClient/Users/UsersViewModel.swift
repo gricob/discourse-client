@@ -9,7 +9,7 @@
 import Foundation
 
 protocol UsersCoordinatorDelegate: class {
-    func didSelect(user: User)
+    func didSelect(user: UserListItem)
 }
 
 protocol UsersViewDelegate: class {
@@ -39,6 +39,8 @@ class UsersViewModel {
             switch result {
             case .success(let usersList):
                     self?.userViewModels.removeAll()
+                    
+                    guard let usersList = usersList else { return }
                     
                     for (index, user) in usersList.users.enumerated() {
                         let cellViewModel = UserCellViewModel(user: user, path: IndexPath(row: index, section: 0))

@@ -23,25 +23,45 @@ class DiscourseClientDataManager {
 }
 
 extension DiscourseClientDataManager: TopicsDataManager {
-    func fetchAllTopics(completion: @escaping (Result<LatestTopicsResponse, Error>) -> ()) {
+    func fetchAllTopics(completion: @escaping (Result<LatestTopicsResponse?, Error>) -> ()) {
         remoteDataManager.fetchAllTopics(completion: completion)
     }
 }
 
 extension DiscourseClientDataManager: TopicDetailDataManager {
-    func fetchTopic(id: Int, completion: @escaping (Result<SingleTopicResponse, Error>) -> ()) {
+    func fetchTopic(id: Int, completion: @escaping (Result<SingleTopicResponse?, Error>) -> ()) {
         remoteDataManager.fetchTopic(id: id, completion: completion)
+    }
+    
+    func deleteTopic(id: Int, completion: @escaping (Result<DeleteTopicResponse?, Error>) -> ()) {
+        remoteDataManager.deleteTopic(id: id, completion: completion)
     }
 }
 
 extension DiscourseClientDataManager: AddTopicDataManager {
-    func addTopic(title: String, raw: String, createdAt: String, completion: @escaping (Result<AddNewTopicResponse, Error>) -> ()) {
+    func addTopic(title: String, raw: String, createdAt: Date, completion: @escaping (Result<AddNewTopicResponse?, Error>) -> ()) {
         remoteDataManager.addTopic(title: title, raw: raw, createdAt: createdAt, completion: completion)
     }
 }
 
 extension DiscourseClientDataManager: UsersDataManager {
-    func fetchAllUsers(completion: @escaping (Result<UsersListResponse, Error>) -> ()) {
+    func fetchAllUsers(completion: @escaping (Result<UsersListResponse?, Error>) -> ()) {
         remoteDataManager.fetchAllUsers(completion: completion)
+    }
+}
+
+extension DiscourseClientDataManager: UserDetailDataManager {
+    func fetchUser(username: String, completion: @escaping (Result<SingleUserResponse?, Error>) -> ()) {
+        remoteDataManager.fetchUser(username: username, completion: completion)
+    }
+    
+    func updateUser(username: String, name: String?, completion: @escaping (Result<UpdateUserResponse?, Error>) -> ()) {
+        remoteDataManager.updateUser(username: username, name: name, completion: completion)
+    }
+}
+
+extension DiscourseClientDataManager: CategoriesDataManager {
+    func fetchAllCategories(completion: @escaping (Result<CategoryListResponse?, Error>) -> ()) {
+        remoteDataManager.fetchAllCategories(completion: completion)
     }
 }

@@ -19,29 +19,35 @@ struct CreateTopicRequest: APIRequest {
     
     init(title: String,
          raw: String,
-         createdAt: String) {
+         createdAt: Date) {
         self.title = title
         self.raw = raw
-        self.createdAt = createdAt
+        
+        let formatter = ISO8601DateFormatter()
+        self.createdAt = formatter.string(from: createdAt)
     }
     
     var method: Method {
-        fatalError("Need to implement this")
+        return .POST
     }
     
     var path: String {
-        fatalError("Need to implement this")
+        return "/posts.json"
     }
     
     var parameters: [String : String] {
-        fatalError("Need to implement this")
+        return [:]
     }
     
     var body: [String : Any] {
-        fatalError("Need to implement this")
+        return [
+            "title": title,
+            "raw": title,
+            "created_at": createdAt
+        ]
     }
     
     var headers: [String : String] {
-        fatalError("Need to implement this")
+        return [:]
     }
 }
