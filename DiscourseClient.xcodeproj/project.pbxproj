@@ -53,7 +53,7 @@
 		D53E1B852442FDD400697684 /* UserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D53E1B832442FDD400697684 /* UserCell.xib */; };
 		D53E1B872442FDE400697684 /* UserCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53E1B862442FDE400697684 /* UserCellViewModel.swift */; };
 		D53E1B892443029500697684 /* SingleUserResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53E1B882443029500697684 /* SingleUserResponse.swift */; };
-		D53E1B8B2443052500697684 /* ActiveUsersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53E1B8A2443052500697684 /* ActiveUsersRequest.swift */; };
+		D53E1B8B2443052500697684 /* UserListRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53E1B8A2443052500697684 /* UserListRequest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -105,7 +105,7 @@
 		D53E1B832442FDD400697684 /* UserCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = UserCell.xib; sourceTree = "<group>"; };
 		D53E1B862442FDE400697684 /* UserCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCellViewModel.swift; sourceTree = "<group>"; };
 		D53E1B882443029500697684 /* SingleUserResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleUserResponse.swift; sourceTree = "<group>"; };
-		D53E1B8A2443052500697684 /* ActiveUsersRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveUsersRequest.swift; sourceTree = "<group>"; };
+		D53E1B8A2443052500697684 /* UserListRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserListRequest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -264,7 +264,7 @@
 				62015CC523EF161E00673EBB /* SingleTopicRequest.swift */,
 				62015CD123EF205100673EBB /* CreateTopicRequest.swift */,
 				62A697A223E89BD600CCEA3E /* LatestTopicsRequest.swift */,
-				D53E1B8A2443052500697684 /* ActiveUsersRequest.swift */,
+				D53E1B8A2443052500697684 /* UserListRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -371,7 +371,7 @@
 				627DC5C323E5FEE4006D8615 /* TopicsViewModel.swift in Sources */,
 				D53E1B892443029500697684 /* SingleUserResponse.swift in Sources */,
 				62015CC023EF0F8100673EBB /* TopicDetailViewModel.swift in Sources */,
-				D53E1B8B2443052500697684 /* ActiveUsersRequest.swift in Sources */,
+				D53E1B8B2443052500697684 /* UserListRequest.swift in Sources */,
 				62015CC823EF162D00673EBB /* SingleTopicResponse.swift in Sources */,
 				62015CC423EF14FC00673EBB /* TopicDetailDataManager.swift in Sources */,
 				62015CDB23EF301300673EBB /* CategoriesViewModel.swift in Sources */,

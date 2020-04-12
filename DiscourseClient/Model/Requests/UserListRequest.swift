@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct ActiveUsersRequest: APIRequest {
+struct UserListRequest: APIRequest {
     
     typealias Response = UsersListResponse
     
@@ -17,11 +17,14 @@ struct ActiveUsersRequest: APIRequest {
     }
     
     var path: String {
-        return "/admin/users/list/active.json"
+        return "/directory_items.json"
     }
     
     var parameters: [String : String] {
-        return [:]
+        return [
+            "period": "all",
+            "order": "likes_received"
+        ]
     }
     
     var body: [String : Any] {

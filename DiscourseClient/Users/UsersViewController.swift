@@ -18,7 +18,7 @@ class UsersViewController: UIViewController {
         table.dataSource = self
         table.delegate = self
         table.register(UINib(nibName: "UserCell", bundle: nil), forCellReuseIdentifier: "UserCell")
-        table.estimatedRowHeight = 100
+        table.estimatedRowHeight = 168
         table.rowHeight = UITableView.automaticDimension
         
         return table
@@ -27,6 +27,8 @@ class UsersViewController: UIViewController {
     init(viewModel : UsersViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        
+        self.viewModel.viewDelegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -35,16 +37,13 @@ class UsersViewController: UIViewController {
     
     override func loadView() {
         view = UIView()
-        view.backgroundColor = .white
 
-        let testLabel = UILabel()
-        testLabel.translatesAutoresizingMaskIntoConstraints = false
-        testLabel.text = "Get a list of users"
-
-        view.addSubview(testLabel)
+        view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            testLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            testLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
     
@@ -77,11 +76,21 @@ extension UsersViewController: UITableViewDataSource {
 }
 
 extension UsersViewController: UITableViewDelegate {
+    
+}
+
+extension UsersViewController: UsersViewDelegate {
     func usersFetched() {
         tableView.reloadData()
     }
     
     func errorFetchingUsers() {
         showErrorFetchingUsersAlert()
+    }
+}
+
+extension UsersViewController: UserCellViewDelegate {
+    func imageLoaded(path: IndexPath) {
+        tableView.reloadRows(at: [path], with: .none)
     }
 }

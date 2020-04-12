@@ -1,5 +1,5 @@
 //
-//  SingleUserResponse.swift
+//  ImageRequest.swift
 //  DiscourseClient
 //
 //  Created by Gerardo Rico Botella on 12/04/2020.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-struct SingleUserResponse: Codable {
+class ImageRequest {
     
 }

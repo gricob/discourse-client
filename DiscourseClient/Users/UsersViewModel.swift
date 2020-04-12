@@ -21,6 +21,7 @@ class UsersViewModel {
 
     weak var coordinatorDelegate: UsersCoordinatorDelegate?
     weak var viewDelegate: UsersViewDelegate?
+    weak var cellViewDelegate: UserCellViewDelegate?
     let usersDataManager: UsersDataManager
     var userViewModels: [UserCellViewModel] = []
     
@@ -34,8 +35,24 @@ class UsersViewModel {
          Asignar el resultado a la lista de viewModels (que representan celdas de la interfaz
          Avisar a la vista de que ya tenemos topics listos para pintar
          */
-        usersDataManager.fetchAllUsers { (result) in
-            print(result)
+        usersDataManager.fetchAllUsers { [weak self] (result) in
+            switch result {
+            case .success(let usersList):
+                    self?.userViewModels.removeAll()
+                    
+                    for (index, user) in usersList.users.enumerated() {
+                        let cellViewModel = UserCellViewModel(user: user, path: IndexPath(row: index, section: 0))
+                        cellViewModel.viewDelegate = self?.cellViewDelegate
+                        self?.userViewModels.append(cellViewModel)
+                    }
+                    
+                    self?.viewDelegate?.usersFetched()
+                    break
+                case .failure(let error):
+                    print(error)
+                    self?.viewDelegate?.errorFetchingUsers()
+                    break
+            }
         }
     }
     

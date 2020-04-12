@@ -14,6 +14,14 @@ class UserCell: UITableViewCell {
         didSet {
             guard let viewModel = viewModel else { return }
             textLabel?.text = viewModel.textLabelText
+            
+            if let image = viewModel.image {
+                self.imageView?.image = image
+            } else {
+                viewModel.onImageLoaded = { [weak self] in
+                    self?.imageView?.image = viewModel.image
+                }
+            }
         }
     }
     
