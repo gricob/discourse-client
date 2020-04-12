@@ -44,6 +44,11 @@
 		62A697A323E89BD600CCEA3E /* LatestTopicsRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A697A223E89BD600CCEA3E /* LatestTopicsRequest.swift */; };
 		62A697A623E89C2200CCEA3E /* LatestTopicsResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A697A523E89C2200CCEA3E /* LatestTopicsResponse.swift */; };
 		62A697A823E89E6700CCEA3E /* DiscourseClientLocalDataManagerImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62A697A723E89E6700CCEA3E /* DiscourseClientLocalDataManagerImpl.swift */; };
+		D53E1B782442F4C400697684 /* UsersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53E1B772442F4C400697684 /* UsersCoordinator.swift */; };
+		D53E1B7B2442F70E00697684 /* UsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53E1B7A2442F70E00697684 /* UsersViewController.swift */; };
+		D53E1B7D2442F72E00697684 /* UsersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53E1B7C2442F72E00697684 /* UsersViewModel.swift */; };
+		D53E1B7F2442F79F00697684 /* UsersDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53E1B7E2442F79F00697684 /* UsersDataManager.swift */; };
+		D53E1B812442F81D00697684 /* UsersResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = D53E1B802442F81D00697684 /* UsersResponse.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,6 +91,11 @@
 		62A697A223E89BD600CCEA3E /* LatestTopicsRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatestTopicsRequest.swift; sourceTree = "<group>"; };
 		62A697A523E89C2200CCEA3E /* LatestTopicsResponse.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LatestTopicsResponse.swift; sourceTree = "<group>"; };
 		62A697A723E89E6700CCEA3E /* DiscourseClientLocalDataManagerImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiscourseClientLocalDataManagerImpl.swift; sourceTree = "<group>"; };
+		D53E1B772442F4C400697684 /* UsersCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersCoordinator.swift; sourceTree = "<group>"; };
+		D53E1B7A2442F70E00697684 /* UsersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewController.swift; sourceTree = "<group>"; };
+		D53E1B7C2442F72E00697684 /* UsersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersViewModel.swift; sourceTree = "<group>"; };
+		D53E1B7E2442F79F00697684 /* UsersDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersDataManager.swift; sourceTree = "<group>"; };
+		D53E1B802442F81D00697684 /* UsersResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersResponse.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -155,6 +165,7 @@
 		627DC5A723E5F580006D8615 /* DiscourseClient */ = {
 			isa = PBXGroup;
 			children = (
+				D53E1B792442F6FB00697684 /* Users */,
 				62015CC923EF19E600673EBB /* Extensions */,
 				627DC5C923E603A9006D8615 /* Model */,
 				627DC5C623E6036F006D8615 /* DataManager */,
@@ -169,6 +180,7 @@
 				627DC5B323E5F581006D8615 /* LaunchScreen.storyboard */,
 				627DC5B623E5F581006D8615 /* Info.plist */,
 				627DC5BF23E5F7B3006D8615 /* AppCoordinator.swift */,
+				D53E1B772442F4C400697684 /* UsersCoordinator.swift */,
 				62015CBC23EF0C6700673EBB /* TopicsCoordinator.swift */,
 				62015CDE23EF30E600673EBB /* CategoriesCoordinator.swift */,
 				62015CD723EF26C900673EBB /* AddTopicCoordinator.swift */,
@@ -252,8 +264,19 @@
 				62A697A523E89C2200CCEA3E /* LatestTopicsResponse.swift */,
 				62015CD323EF21A900673EBB /* AddNewTopicResponse.swift */,
 				62015CC723EF162D00673EBB /* SingleTopicResponse.swift */,
+				D53E1B802442F81D00697684 /* UsersResponse.swift */,
 			);
 			path = Responses;
+			sourceTree = "<group>";
+		};
+		D53E1B792442F6FB00697684 /* Users */ = {
+			isa = PBXGroup;
+			children = (
+				D53E1B7A2442F70E00697684 /* UsersViewController.swift */,
+				D53E1B7C2442F72E00697684 /* UsersViewModel.swift */,
+				D53E1B7E2442F79F00697684 /* UsersDataManager.swift */,
+			);
+			path = Users;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -344,14 +367,18 @@
 				62015CD823EF26C900673EBB /* AddTopicCoordinator.swift in Sources */,
 				62015CD423EF21A900673EBB /* AddNewTopicResponse.swift in Sources */,
 				62015CC623EF161E00673EBB /* SingleTopicRequest.swift in Sources */,
+				D53E1B812442F81D00697684 /* UsersResponse.swift in Sources */,
+				D53E1B7D2442F72E00697684 /* UsersViewModel.swift in Sources */,
 				62015CCE23EF1F5200673EBB /* AddTopicViewModel.swift in Sources */,
 				62015CDF23EF30E600673EBB /* CategoriesCoordinator.swift in Sources */,
+				D53E1B7F2442F79F00697684 /* UsersDataManager.swift in Sources */,
 				62015CD223EF205100673EBB /* CreateTopicRequest.swift in Sources */,
 				62015CC223EF0FA000673EBB /* TopicDetailViewController.swift in Sources */,
 				62015CDD23EF302900673EBB /* CategoriesViewController.swift in Sources */,
 				627DC5C823E60384006D8615 /* TopicsDataManager.swift in Sources */,
 				627DC5C023E5F7B3006D8615 /* AppCoordinator.swift in Sources */,
 				62A697A823E89E6700CCEA3E /* DiscourseClientLocalDataManagerImpl.swift in Sources */,
+				D53E1B7B2442F70E00697684 /* UsersViewController.swift in Sources */,
 				62015CD623EF21F600673EBB /* AddTopicDataManager.swift in Sources */,
 				627DC5D923E60727006D8615 /* APIRequest.swift in Sources */,
 				62015CD023EF1F6800673EBB /* AddTopicViewController.swift in Sources */,
@@ -359,6 +386,7 @@
 				62015CB723EF04C200673EBB /* TopicCellViewModel.swift in Sources */,
 				627DC5D823E60727006D8615 /* SessionAPI.swift in Sources */,
 				627DC5D123E604E7006D8615 /* DiscourseClientLocalDataManager.swift in Sources */,
+				D53E1B782442F4C400697684 /* UsersCoordinator.swift in Sources */,
 				627DC5AB23E5F580006D8615 /* SceneDelegate.swift in Sources */,
 				627DC5CD23E6048A006D8615 /* DiscourseClientDataManager.swift in Sources */,
 			);
