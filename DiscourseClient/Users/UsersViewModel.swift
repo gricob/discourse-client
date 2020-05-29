@@ -30,11 +30,6 @@ class UsersViewModel {
     }
     
     func viewWasLoaded() {
-        /** TODO:
-         Recuperar el listado de usuarios del dataManager
-         Asignar el resultado a la lista de viewModels (que representan celdas de la interfaz
-         Avisar a la vista de que ya tenemos topics listos para pintar
-         */
         usersDataManager.fetchAllUsers { [weak self] (result) in
             switch result {
             case .success(let usersList):
@@ -62,7 +57,7 @@ class UsersViewModel {
         return 1
     }
     
-    func numberOfRows(in section: Int) -> Int {
+    func numberOfItems(in section: Int) -> Int {
         return userViewModels.count
     }
     

@@ -2,21 +2,29 @@
 //  UserCell.swift
 //  DiscourseClient
 //
-//  Created by Gerardo Rico Botella on 12/04/2020.
+//  Created by Gerardo Rico Botella on 29/05/2020.
 //  Copyright © 2020 Roberto Garrido. All rights reserved.
 //
 
 import UIKit
 
-class UserCell: UITableViewCell {
+class UserCell: UICollectionViewCell {
+
+    @IBOutlet weak var userImage: UIImageView!
+    @IBOutlet weak var userLabel: UILabel!
     
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        userImage.layer.cornerRadius = 40
+    }
+
     var viewModel: UserCellViewModel? {
         didSet {
             guard let viewModel = viewModel else { return }
-            textLabel?.text = viewModel.textLabelText
+            userLabel.text = viewModel.textLabelText
             
-            self.imageView?.image = viewModel.image
+            self.userImage.image = viewModel.image
         }
     }
-    
 }
