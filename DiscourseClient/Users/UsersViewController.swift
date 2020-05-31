@@ -41,6 +41,7 @@ class UsersViewController: UIViewController {
     
     override func loadView() {
         view = UIView()
+        view.backgroundColor = .white82
 
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
@@ -49,13 +50,18 @@ class UsersViewController: UIViewController {
             collectionView.rightAnchor.constraint(equalTo: view.rightAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        
+        let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchTapped))
+        searchButton.tintColor = .pumpkin
+        
+        navigationItem.rightBarButtonItem = searchButton
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchTapped))
+        navigationController?.navigationBar.prefersLargeTitles = true
         
         viewModel.viewWasLoaded()
     }

@@ -24,6 +24,11 @@ class UsersCoordinator: Coordinator {
         let usersViewModel = UsersViewModel(usersDataManager: usersDataManager)
         let usersViewController = UsersViewController(viewModel: usersViewModel)
         usersViewController.title = NSLocalizedString("Users", comment: "")
+        usersViewController.tabBarItem = UITabBarItem(
+            title: "Usuarios",
+            image: UIImage(named: "UsersUnselectedIcon")?.withRenderingMode(.alwaysOriginal),
+            selectedImage: UIImage(named: "UsersSelectedIcon")?.withRenderingMode(.alwaysOriginal)
+        )
         
         usersViewModel.viewDelegate = usersViewController
         usersViewModel.cellViewDelegate = usersViewController

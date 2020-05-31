@@ -57,9 +57,7 @@ class AppCoordinator: Coordinator {
         tabBarController.tabBar.tintColor = .black
 
         tabBarController.viewControllers = [topicsNavigationController, categoriesNavigationController, usersNavigationController]
-        tabBarController.tabBar.items?.first?.image = UIImage(systemName: "list.dash")
         tabBarController.tabBar.items?[1].image = UIImage(systemName: "tag")
-        tabBarController.tabBar.items?[2].image = UIImage(systemName: "person")
 
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()

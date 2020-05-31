@@ -24,6 +24,7 @@ protocol TopicsViewDelegate: class {
 class TopicsViewModel {
     weak var coordinatorDelegate: TopicsCoordinatorDelegate?
     weak var viewDelegate: TopicsViewDelegate?
+    weak var cellViewDelegate: TopicCellViewDelegate?
     let topicsDataManager: TopicsDataManager
     var topicViewModels: [TopicCellViewModel] = []
 
@@ -38,9 +39,25 @@ class TopicsViewModel {
     func fetchTopics() {
         topicsDataManager.fetchAllTopics { [weak self] (result) in
             switch result {
-                case .success(let topicList):
-                    guard let topicList = topicList else { break }
-                    self?.topicViewModels = topicList.topics.map { TopicCellViewModel(topic: $0) }
+                case .success(let response):
+                    self?.topicViewModels.removeAll()
+                    
+                    guard let response = response else { break }
+                    
+                    for (index, topic) in response.topics.enumerated() {
+                        if topic.pinned {
+                            let cellViewModel = PinnedTopicCellViewModel(topic: topic)
+                            self?.topicViewModels.append(cellViewModel)
+                        } else {
+                            let latestPoster = response.users.first { (user) -> Bool in
+                                return user.username == topic.lastPosterUsername
+                            }
+                            
+                            let cellViewModel = DefaultTopicCellViewModel(topic: topic, latestPoster: latestPoster, path: IndexPath(row: index, section: 0))
+                            cellViewModel.viewDelegate = self?.cellViewDelegate
+                            self?.topicViewModels.append(cellViewModel)
+                        }
+                    }
                     
                     self?.viewDelegate?.topicsFetched()
                 break

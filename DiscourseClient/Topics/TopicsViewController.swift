@@ -16,10 +16,30 @@ class TopicsViewController: UIViewController {
         table.translatesAutoresizingMaskIntoConstraints = false
         table.dataSource = self
         table.delegate = self
-        table.register(UINib(nibName: "TopicCell", bundle: nil), forCellReuseIdentifier: "TopicCell")
-        table.estimatedRowHeight = 100
-        table.rowHeight = UITableView.automaticDimension
+        table.register(PinnedTopicCell.self, forCellReuseIdentifier: "PinnedTopicCell")
+        table.register(DefaultTopicCell.self, forCellReuseIdentifier: "DefaultTopicCell")
+        table.separatorInset = .init(top: 0, left: 0, bottom: 0, right: 0)
         return table
+    }()
+    
+    lazy var newTopicButton: UIButton = {
+        
+        let button = UIButton(frame: .zero)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.setImage(UIImage(named: "NewTopicButton"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.layer.cornerRadius = 32
+        
+        button.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlPulled), for: .valueChanged)
+        
+        return refreshControl
     }()
 
     let viewModel: TopicsViewModel
@@ -35,7 +55,7 @@ class TopicsViewController: UIViewController {
 
     override func loadView() {
         view = UIView()
-
+        
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -43,20 +63,47 @@ class TopicsViewController: UIViewController {
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        
+        view.addSubview(newTopicButton)
+        NSLayoutConstraint.activate([
+            newTopicButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -12),
+            newTopicButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -15),
+            newTopicButton.widthAnchor.constraint(equalToConstant: 64),
+            newTopicButton.heightAnchor.constraint(equalToConstant: 64)
+        ])
 
+        let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchButtonTapped))
 
-        let rightBarButtonItem: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus"), style: .plain, target: self, action: #selector(plusButtonTapped))
-        rightBarButtonItem.tintColor = .black
+        let rightBarButtonItem: UIBarButtonItem = searchButton
+        rightBarButtonItem.tintColor = .pumpkin
         navigationItem.rightBarButtonItem = rightBarButtonItem
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(refreshControlPulled), for: .valueChanged)
+        
+        tableView.refreshControl = self.refreshControl
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.searchController?.isActive = false
+        navigationItem.searchController?.hidesNavigationBarDuringPresentation = true
+        
         viewModel.viewWasLoaded()
     }
 
     @objc func plusButtonTapped() {
         viewModel.plusButtonTapped()
+    }
+    
+    @objc func searchButtonTapped() {
+        print("Search action is not implemented")
+    }
+    
+    @objc func refreshControlPulled() {
+        viewModel.fetchTopics()
     }
 
     fileprivate func showErrorFetchingTopicsAlert() {
@@ -69,16 +116,35 @@ extension TopicsViewController: UITableViewDataSource {
     func numberOfSections(in tableView: UITableView) -> Int {
         return viewModel.numberOfSections()
     }
-
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let cellViewModel = viewModel.viewModel(at: indexPath)
+        
+        switch cellViewModel {
+            case is PinnedTopicCellViewModel:
+                return 151
+            default:
+                return 96
+        }
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfRows(in: section)
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueReusableCell(withIdentifier: "TopicCell", for: indexPath) as? TopicCell,
-            let cellViewModel = viewModel.viewModel(at: indexPath) {
-            cell.viewModel = cellViewModel
-            return cell
+        let cellViewModel = viewModel.viewModel(at: indexPath)
+        
+        if let cellViewModel = cellViewModel as? PinnedTopicCellViewModel {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "PinnedTopicCell", for: indexPath) as? PinnedTopicCell {
+                cell.viewModel = cellViewModel
+                return cell
+            }
+        } else if let cellViewModel = cellViewModel as? DefaultTopicCellViewModel {
+            if let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultTopicCell", for: indexPath) as? DefaultTopicCell {
+                cell.viewModel = cellViewModel
+                return cell
+            }
         }
 
         fatalError()
@@ -95,9 +161,31 @@ extension TopicsViewController: UITableViewDelegate {
 extension TopicsViewController: TopicsViewDelegate {
     func topicsFetched() {
         tableView.reloadData()
+        refreshControl.endRefreshing()
     }
 
     func errorFetchingTopics() {
         showErrorFetchingTopicsAlert()
+    }
+}
+
+extension TopicsViewController: TopicCellViewDelegate {
+    func imageLoaded(path: IndexPath) {
+        tableView.reloadRows(at: [path], with: .none)
+    }
+}
+
+extension TopicsViewController: UISearchBarDelegate {
+    
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        print("Time to search!")
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        print("Search!")
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.endEditing(true)
     }
 }

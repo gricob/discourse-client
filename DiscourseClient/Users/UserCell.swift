@@ -9,6 +9,8 @@
 import UIKit
 
 class UserCell: UICollectionViewCell {
+    
+    
 
     @IBOutlet weak var userImage: UIImageView!
     @IBOutlet weak var userLabel: UILabel!
@@ -23,6 +25,7 @@ class UserCell: UICollectionViewCell {
         didSet {
             guard let viewModel = viewModel else { return }
             userLabel.text = viewModel.textLabelText
+            userLabel.font = .textStyle
             
             self.userImage.image = viewModel.image
         }
