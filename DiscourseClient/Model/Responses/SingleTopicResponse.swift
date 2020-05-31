@@ -8,12 +8,14 @@ struct SingleTopicResponse: Codable {
     var title: String
     var postsCount: Int
     var canDelete: Bool
+    var lastPostedAt: Date?
     
     enum CodingKeys: String, CodingKey {
         case id
         case title
         case postsCount = "posts_count"
         case details
+        case lastPostedAt = "last_posted_at"
     }
     
     init(from decoder: Decoder) throws {
@@ -21,6 +23,14 @@ struct SingleTopicResponse: Codable {
         id = try values.decode(Int.self, forKey: .id)
         title = try values.decode(String.self, forKey: .title)
         postsCount = try values.decode(Int.self, forKey: .postsCount)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "es")
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.dateFormat = "YYYY-MM-dd'T'HH:mm:ss.SSSZ"
+        
+        let lastPostedAtString = try values.decode(String.self, forKey: .lastPostedAt)
+        lastPostedAt = dateFormatter.date(from: lastPostedAtString)
         
         if let details = try? values.decode(TopicDetails.self, forKey: .details) {
             canDelete = details.canDelete

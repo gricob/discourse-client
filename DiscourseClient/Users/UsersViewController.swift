@@ -52,7 +52,6 @@ class UsersViewController: UIViewController {
         ])
         
         let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchTapped))
-        searchButton.tintColor = .pumpkin
         
         navigationItem.rightBarButtonItem = searchButton
         

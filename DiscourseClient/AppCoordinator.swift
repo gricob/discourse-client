@@ -34,6 +34,9 @@ class AppCoordinator: Coordinator {
     }
 
     override func start() {
+        
+        UINavigationBar.appearance().tintColor = .pumpkin
+        
         let tabBarController = UITabBarController()
 
         let topicsNavigationController = UINavigationController()
@@ -58,6 +61,7 @@ class AppCoordinator: Coordinator {
 
         tabBarController.viewControllers = [topicsNavigationController, categoriesNavigationController, usersNavigationController]
         tabBarController.tabBar.items?[1].image = UIImage(systemName: "tag")
+
 
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()

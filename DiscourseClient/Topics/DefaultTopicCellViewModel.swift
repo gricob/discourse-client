@@ -21,8 +21,8 @@ class DefaultTopicCellViewModel: TopicCellViewModel {
     var viewDelegate: TopicCellViewDelegate?
     var textLabelText: String?
     var postsCountLabelText: String?
-    var replyCountLabelText: String?
-    var lastPostUpdatedAt: String?
+    var postersCountLabelText: String?
+    var lastPostUpdatedAt: Date?
     var image: UIImage?
     
     init(topic: Topic, latestPoster poster: TopicUser?, path: IndexPath) {
@@ -34,9 +34,9 @@ class DefaultTopicCellViewModel: TopicCellViewModel {
         self.topic = topic
         self.path = path
         self.textLabelText  = topic.title
-        self.postsCountLabelText = String(topic.postsCount)
-        self.replyCountLabelText = String(topic.replyCount)
-        self.lastPostUpdatedAt = dateFormatter.string(for: topic.lastPostedAt)?.capitalized
+        self.postsCountLabelText = String(topic.posters.count)
+        self.postersCountLabelText = String(topic.replyCount)
+        self.lastPostUpdatedAt = topic.lastPostedAt
         
         guard let poster = poster else { return }
         

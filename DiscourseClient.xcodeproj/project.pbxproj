@@ -73,6 +73,7 @@
 		D56D017F24436BF600761D9D /* CategoryCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56D017E24436BF600761D9D /* CategoryCellViewModel.swift */; };
 		D56D018224436DD300761D9D /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56D018024436DD300761D9D /* CategoryCell.swift */; };
 		D56D018324436DD300761D9D /* CategoryCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D56D018124436DD300761D9D /* CategoryCell.xib */; };
+		D577EA852483C6ED003B5D5E /* TopicInfoStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D577EA842483C6ED003B5D5E /* TopicInfoStackView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -144,6 +145,7 @@
 		D56D017E24436BF600761D9D /* CategoryCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCellViewModel.swift; sourceTree = "<group>"; };
 		D56D018024436DD300761D9D /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		D56D018124436DD300761D9D /* CategoryCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CategoryCell.xib; sourceTree = "<group>"; };
+		D577EA842483C6ED003B5D5E /* TopicInfoStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TopicInfoStackView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,6 +355,7 @@
 			isa = PBXGroup;
 			children = (
 				D55CEF862481BAB400AF2F61 /* IconLabelView.swift */,
+				D577EA842483C6ED003B5D5E /* TopicInfoStackView.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -449,6 +452,7 @@
 				D53E1B8B2443052500697684 /* UserListRequest.swift in Sources */,
 				62015CC823EF162D00673EBB /* SingleTopicResponse.swift in Sources */,
 				D55CEF8B2482B6E000AF2F61 /* PinnedTopicCell.swift in Sources */,
+				D577EA852483C6ED003B5D5E /* TopicInfoStackView.swift in Sources */,
 				D56D01692443523B00761D9D /* DeleteTopicResponse.swift in Sources */,
 				D56D016C244359BF00761D9D /* UserDetailViewController.swift in Sources */,
 				62015CC423EF14FC00673EBB /* TopicDetailDataManager.swift in Sources */,

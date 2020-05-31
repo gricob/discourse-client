@@ -11,79 +11,24 @@ import UIKit
 /// ViewController que representa el detalle de un Topic
 class TopicDetailViewController: UIViewController {
 
-    lazy var labelTopicID: UILabel = {
+    lazy var topicTitleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    lazy var labelTopicTitle: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 28.0, weight: .bold)
         return label
     }()
     
-    lazy var labelTopicPostsCount: UILabel = {
+    lazy var topicInfoStack: TopicInfoStackView = {
+        return TopicInfoStackView()
+    }()
+    
+    lazy var topicBodyLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.numberOfLines = 0
+        label.font = UIFont.systemFont(ofSize: 18, weight: .regular)
         return label
-    }()
-    
-    lazy var buttonDeleteTopic: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .red
-        button.isHidden = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle(NSLocalizedString("Delete topic", comment: ""), for: .normal)
-        
-        button.addTarget(self, action: #selector(deleteButtonTapped), for: .touchUpInside)
-        
-        return button
-    }()
-
-    lazy var topicIDStackView: UIStackView = {
-        let labelTopicIDTitle = UILabel()
-        labelTopicIDTitle.translatesAutoresizingMaskIntoConstraints = false
-        labelTopicIDTitle.text = NSLocalizedString("Topic ID: ", comment: "")
-        labelTopicIDTitle.textColor = .black
-
-        let topicIDStackView = UIStackView(arrangedSubviews: [labelTopicIDTitle, labelTopicID])
-        topicIDStackView.translatesAutoresizingMaskIntoConstraints = false
-        topicIDStackView.axis = .horizontal
-
-        return topicIDStackView
-    }()
-
-    lazy var topicNameStackView: UIStackView = {
-        let labelTopicTitleTitle = UILabel()
-        labelTopicTitleTitle.text = NSLocalizedString("Topic name: ", comment: "")
-        labelTopicTitleTitle.translatesAutoresizingMaskIntoConstraints = false
-
-        let topicNameStackView = UIStackView(arrangedSubviews: [labelTopicTitleTitle, labelTopicTitle])
-        topicNameStackView.translatesAutoresizingMaskIntoConstraints = false
-        topicNameStackView.axis = .horizontal
-
-        return topicNameStackView
-    }()
-    
-    lazy var topicPostsCountStackView: UIStackView = {
-        let labelTopicPostsCountTitle = UILabel()
-        labelTopicPostsCountTitle.text = NSLocalizedString("Topic posts count: ", comment: "")
-        labelTopicPostsCountTitle.translatesAutoresizingMaskIntoConstraints = false
-
-        let topicPostsCountStackView = UIStackView(arrangedSubviews: [labelTopicPostsCountTitle, labelTopicPostsCount])
-        topicPostsCountStackView.translatesAutoresizingMaskIntoConstraints = false
-        topicPostsCountStackView.axis = .horizontal
-
-        return topicPostsCountStackView
-    }()
-    
-    lazy var deleteButtonStackView: UIStackView = {
-        let deleteButtonStackView = UIStackView(arrangedSubviews: [buttonDeleteTopic])
-        deleteButtonStackView.translatesAutoresizingMaskIntoConstraints = false
-        deleteButtonStackView.axis = .horizontal
-
-        return deleteButtonStackView
     }()
 
     let viewModel: TopicDetailViewModel
@@ -100,43 +45,61 @@ class TopicDetailViewController: UIViewController {
     override func loadView() {
         view = UIView()
         view.backgroundColor = .white
-
-        view.addSubview(topicIDStackView)
+        
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .white
+        
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.setContentOffset(CGPoint(x: 0, y: scrollView.contentSize.height), animated: false)
+        scrollView.isDirectionalLockEnabled = true
+        scrollView.alwaysBounceVertical = true
+        
+        view.addSubview(scrollView)
         NSLayoutConstraint.activate([
-            topicIDStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            topicIDStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
-        ])
-
-        view.addSubview(topicNameStackView)
-        NSLayoutConstraint.activate([
-            topicNameStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            topicNameStackView.topAnchor.constraint(equalTo: topicIDStackView.bottomAnchor, constant: 8)
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor)
         ])
         
-        view.addSubview(topicPostsCountStackView)
+        let contentView = UIView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        
+        scrollView.addSubview(contentView)
         NSLayoutConstraint.activate([
-            topicPostsCountStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            topicPostsCountStackView.topAnchor.constraint(equalTo: topicNameStackView.bottomAnchor, constant: 8)
+            contentView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            contentView.rightAnchor.constraint(equalTo: view.rightAnchor),
+            contentView.leftAnchor.constraint(equalTo: view.leftAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
         ])
         
-        view.addSubview(deleteButtonStackView)
+        contentView.addSubview(topicTitleLabel)
         NSLayoutConstraint.activate([
-            deleteButtonStackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            deleteButtonStackView.topAnchor.constraint(equalTo: topicPostsCountStackView.bottomAnchor, constant: 8)
+            topicTitleLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 14),
+            topicTitleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -32),
+            topicTitleLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
+        ])
+        
+        contentView.addSubview(topicInfoStack)
+        NSLayoutConstraint.activate([
+            topicInfoStack.topAnchor.constraint(equalTo: topicTitleLabel.bottomAnchor, constant: 16),
+            topicInfoStack.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
         ])
 
-        let leftBarButtonItem: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "arrow.left"), style: .plain, target: self, action: #selector(backButtonTapped))
-        leftBarButtonItem.tintColor = .black
-        navigationItem.leftBarButtonItem = leftBarButtonItem
+        contentView.addSubview(topicBodyLabel)
+        NSLayoutConstraint.activate([
+            topicBodyLabel.topAnchor.constraint(equalTo: topicInfoStack.bottomAnchor, constant: 11),
+            topicBodyLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -32),
+            topicBodyLabel.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 16),
+        ])
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        navigationItem.largeTitleDisplayMode = .never
+        
         viewModel.viewDidLoad()
-    }
-
-    @objc func backButtonTapped() {
-        viewModel.backButtonTapped()
     }
     
     @objc func deleteButtonTapped() {
@@ -154,10 +117,10 @@ class TopicDetailViewController: UIViewController {
     }
 
     fileprivate func updateUI() {
-        labelTopicID.text = viewModel.labelTopicIDText
-        labelTopicTitle.text = viewModel.labelTopicNameText
-        labelTopicPostsCount.text = viewModel.labelTopicPostsCountText
-        buttonDeleteTopic.isHidden = !(viewModel.showDeleteButton ?? false)
+        topicTitleLabel.text = viewModel.labelTopicNameText
+        topicBodyLabel.text = viewModel.labelTopicNameText
+        topicInfoStack.setPostCount(text: viewModel.labelTopicPostsCountText)
+        topicInfoStack.setLastPostedAt(date: viewModel.lastPostedAt)
     }
 }
 

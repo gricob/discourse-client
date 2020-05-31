@@ -26,46 +26,23 @@ class DefaultTopicCell: UITableViewCell {
         image.translatesAutoresizingMaskIntoConstraints = false
         image.layer.cornerRadius = 32
         image.layer.masksToBounds = true
-        image.backgroundColor = .lightGray
         
         return image
     }()
     
-    lazy var postCount: IconLabelView = {
-        let iconLabel = IconLabelView(icon: UIImage(named: "AnswersIcon"))
-        iconLabel.textLabel.font = .textStyle7
-        return iconLabel
-    }()
-    
-    lazy var replyCount: IconLabelView = {
-        let iconLabel = IconLabelView(icon: UIImage(named: "ViewsIcon"))
-        iconLabel.textLabel.font = .textStyle7
-        return iconLabel
-    }()
-    
-    lazy var lastPostedAt: IconLabelView = {
-        let iconLabel = IconLabelView(icon: UIImage(named: "CalendarIcon"))
-        iconLabel.textLabel.font = .textStyle2
-        return iconLabel
-    }()
-    
-    lazy var infoStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [postCount, replyCount, lastPostedAt])
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.spacing = 6
-        stack.axis = .horizontal
-        
-        return stack
+    lazy var topicInfoStack: TopicInfoStackView = {
+        return TopicInfoStackView()
     }()
     
     var viewModel: DefaultTopicCellViewModel? {
         didSet {
             guard let viewModel = viewModel else { return }
             titleLabel.text = viewModel.textLabelText
-            postCount.setText(viewModel.postsCountLabelText)
-            replyCount.setText(viewModel.replyCountLabelText)
-            lastPostedAt.setText(viewModel.lastPostUpdatedAt)
             authorImage.image = viewModel.image
+            
+            topicInfoStack.setPostCount(text: viewModel.postsCountLabelText)
+            topicInfoStack.setPostersCount(text: viewModel.postersCountLabelText)
+            topicInfoStack.setLastPostedAt(date: viewModel.lastPostUpdatedAt)
         }
     }
     
@@ -88,10 +65,10 @@ class DefaultTopicCell: UITableViewCell {
             titleLabel.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -59)
         ])
         
-        contentView.addSubview(infoStack)
+        contentView.addSubview(topicInfoStack)
         NSLayoutConstraint.activate([
-            infoStack.leftAnchor.constraint(equalTo: authorImage.rightAnchor, constant: 11),
-            infoStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            topicInfoStack.leftAnchor.constraint(equalTo: authorImage.rightAnchor, constant: 11),
+            topicInfoStack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
         ])
     }
     

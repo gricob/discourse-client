@@ -26,6 +26,7 @@ class TopicDetailViewModel {
     var labelTopicNameText: String?
     var labelTopicPostsCountText: String?
     var showDeleteButton: Bool?
+    var lastPostedAt: Date?
 
     weak var viewDelegate: TopicDetailViewDelegate?
     weak var coordinatorDelegate: TopicDetailCoordinatorDelegate?
@@ -48,6 +49,7 @@ class TopicDetailViewModel {
                     self?.labelTopicNameText = "\(topic.title)"
                     self?.labelTopicPostsCountText = "\(topic.postsCount)"
                     self?.showDeleteButton = topic.canDelete
+                    self?.lastPostedAt = topic.lastPostedAt
                     
                     self?.viewDelegate?.topicDetailFetched()
                     break

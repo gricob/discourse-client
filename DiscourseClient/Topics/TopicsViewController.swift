@@ -26,7 +26,7 @@ class TopicsViewController: UIViewController {
         
         let button = UIButton(frame: .zero)
         button.imageView?.contentMode = .scaleAspectFit
-        button.setImage(UIImage(named: "NewTopicButton"), for: .normal)
+        button.setImage(UIImage(named: "NewTopicButton")?.withRenderingMode(.alwaysOriginal), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.cornerRadius = 32
         
@@ -43,6 +43,8 @@ class TopicsViewController: UIViewController {
     }()
 
     let viewModel: TopicsViewModel
+    
+    var loadedIndexPaths: [IndexPath] = []
 
     init(viewModel: TopicsViewModel) {
         self.viewModel = viewModel
@@ -55,13 +57,14 @@ class TopicsViewController: UIViewController {
 
     override func loadView() {
         view = UIView()
+        view.backgroundColor = .white
         
         view.addSubview(tableView)
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leftAnchor.constraint(equalTo: view.leftAnchor),
             tableView.rightAnchor.constraint(equalTo: view.rightAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
         
         view.addSubview(newTopicButton)
@@ -75,7 +78,6 @@ class TopicsViewController: UIViewController {
         let searchButton = UIBarButtonItem(image: UIImage(systemName: "magnifyingglass"), style: .plain, target: self, action: #selector(searchButtonTapped))
 
         let rightBarButtonItem: UIBarButtonItem = searchButton
-        rightBarButtonItem.tintColor = .pumpkin
         navigationItem.rightBarButtonItem = rightBarButtonItem
         
         let refreshControl = UIRefreshControl()
@@ -92,6 +94,12 @@ class TopicsViewController: UIViewController {
         navigationItem.searchController?.hidesNavigationBarDuringPresentation = true
         
         viewModel.viewWasLoaded()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        tableView.reloadData()
     }
 
     @objc func plusButtonTapped() {
@@ -130,6 +138,23 @@ extension TopicsViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return viewModel.numberOfRows(in: section)
+    }
+    
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if loadedIndexPaths.contains(indexPath) {
+            return
+        }
+        
+        loadedIndexPaths.append(indexPath)
+        
+        guard let cell = cell as? DefaultTopicCell else { return }
+        
+        cell.authorImage.alpha = 0
+        
+        UIView.animate(withDuration: 0.3, delay: 0, options: .curveEaseIn, animations: {
+            cell.authorImage.alpha = 1
+        })
+        
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -171,7 +196,13 @@ extension TopicsViewController: TopicsViewDelegate {
 
 extension TopicsViewController: TopicCellViewDelegate {
     func imageLoaded(path: IndexPath) {
-        tableView.reloadRows(at: [path], with: .none)
+        if view.window == nil { return }
+        
+        guard let visibleIndexPaths = tableView.indexPathsForVisibleRows else { return }
+        
+        if visibleIndexPaths.contains(path) {
+            tableView.reloadRows(at: [path], with: .none)
+        }
     }
 }
 

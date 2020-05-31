@@ -39,6 +39,7 @@ struct Topic: Codable {
     var lastPostedAt: Date?
     var excerpt: String?
     var pinned: Bool
+    var posters: [TopicPoster]
     
     enum CodingKeys: String, CodingKey {
         case id
@@ -49,6 +50,7 @@ struct Topic: Codable {
         case lastPosterUsername = "last_poster_username"
         case excerpt
         case pinned
+        case posters
     }
     
     init(from decoder: Decoder) throws {
@@ -60,6 +62,7 @@ struct Topic: Codable {
         lastPosterUsername = try values.decode(String.self, forKey: .lastPosterUsername)
         excerpt = (try values.decodeIfPresent(String.self, forKey: .excerpt)) ?? nil
         pinned = try values.decode(Bool.self, forKey: .pinned)
+        posters = (try? values.decode([TopicPoster].self, forKey: .posters)) ?? []
         
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "es")
@@ -85,5 +88,17 @@ struct TopicUser: Codable {
         case id
         case username
         case avatarTemplate = "avatar_template"
+    }
+}
+
+struct TopicPoster: Codable {
+    var userId: Int
+    var extras: String
+    var description: String
+    
+    enum CodingKeys: String, CodingKey {
+        case userId = "user_id"
+        case extras
+        case description
     }
 }
